@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Smart Email Generator</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #eef2f7;
+        display: flex;
+        justify-content: center;
+        padding: 30px;
+    }
+
+    .phone {
+        width: 390px;
+        min-height: 760px;
+        background: white;
+        border-radius: 35px;
+        padding: 25px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    }
+
+    .dark {
+        background: #121212;
+        color: white;
+    }
+
+    h1 {
+        font-size: 26px;
+        margin-bottom: 5px;
+    }
+
+    p {
+        color: #666;
+    }
+
+    .dark p {
+        color: #ccc;
+    }
+
+    input, select, textarea, button {
+        width: 100%;
+        padding: 13px;
+        margin: 8px 0;
+        border-radius: 14px;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+        font-size: 15px;
+    }
+
+    button {
+        background: #007aff;
+        color: white;
+        border: none;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .secondary {
+        background: #e8f0ff;
+        color: #007aff;
+    }
+
+    textarea {
+        height: 190px;
+        resize: none;
+    }
+
+    .tips {
+        background: #f1f7ff;
+        padding: 12px;
+        border-radius: 14px;
+        margin-top: 10px;
+        color: #333;
+    }
+
+    .dark .tips {
+        background: #1f1f1f;
+        color: white;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="phone" id="app">
+    <h1>Smart Email Generator</h1>
+    <p>Create professional emails quickly.</p>
+
+    <input type="text" id="name" placeholder="Your name">
+    <input type="text" id="company" placeholder="Company / University">
+
+    <select id="type">
+        <option value="internship">Internship Request</option>
+        <option value="inquiry">General Inquiry</option>
+        <option value="thankyou">Thank You Email</option>
+    </select>
+
+    <input type="text" id="purpose" placeholder="Purpose of email">
+
+    <button onclick="generateEmail()">Generate Email</button>
+    <button class="secondary" onclick="copyEmail()">Copy Email</button>
+    <button class="secondary" onclick="toggleDarkMode()">Toggle Dark Mode</button>
+
+    <textarea id="result" placeholder="Your email will appear here..."></textarea>
+
+    <div id="tips" class="tips">
+        Smart tips will appear here.
+    </div>
+</div>
+
+<script>
+function generateEmail() {
+    let name = document.getElementById("name").value;
+    let company = document.getElementById("company").value;
+    let type = document.getElementById("type").value;
+    let purpose = document.getElementById("purpose").value;
+
+    if (name === "" || company === "" || purpose === "") {
+        document.getElementById("result").value = "Please fill all fields.";
+        return;
+    }
+
+    let email = "";
+
+    if (type === "internship") {
+        email =
+`Dear ${company} Team,
+
+My name is ${name}, and I am writing to express my interest in an internship opportunity at ${company}. I am interested in ${purpose} and would love to gain experience with your team.
+
+Thank you for your time and consideration.
+
+Best regards,
+${name}`;
+    } else if (type === "inquiry") {
+        email =
+`Dear ${company} Team,
+
+My name is ${name}, and I would like to ask about ${purpose}. I would appreciate your support in providing more details.
+
+Best regards,
+${name}`;
+    } else {
+        email =
+`Dear ${company} Team,
+
+My name is ${name}, and I would like to thank you for ${purpose}. I truly appreciate your time and support.
+
+Best regards,
+${name}`;
+    }
+
+    document.getElementById("result").value = email;
+    generateTips(purpose);
+}
+
+function generateTips(purpose) {
+    if (purpose.length < 15) {
+        document.getElementById("tips").innerText =
+        "Tip: Add more details to make your email stronger.";
+    } else {
+        document.getElementById("tips").innerText =
+        "Good job! Your email purpose is clear and professional.";
+    }
+}
+
+function copyEmail() {
+    let text = document.getElementById("result");
+    text.select();
+    document.execCommand("copy");
+    alert("Email copied!");
+}
+
+function toggleDarkMode() {
+    document.getElementById("app").classList.toggle("dark");
+}
+</script>
+
+</body>
+</html>
